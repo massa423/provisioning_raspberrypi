@@ -1,0 +1,31 @@
+- name: copy eth0 interface config
+  copy:
+    src: etc/network/interfaces.d/eth0
+    dest: /etc/network/interfaces.d/eth0
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: install dhcp-server package
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  loop:
+    - isc-dhcp-server
+
+- name: start and enable dhcpcd
+  systemd:
+    name: dhcpcd
+    state: started
+    enabled: yes
+
+- name: copy dhcpd config
+  copy:
+    src: etc/dhcp/dhcpd.conf
+    dest: /etc/dhcp/dhcpd.conf
+    owner: root
+    group: root
+    mode: '0644'
+  notify:
+    - restart dhcpcd

@@ -1,0 +1,36 @@
+- name: uninstall old docker package
+  apt:
+    name: "{{ item }}"
+    state: absent
+  loop:
+    - docker
+    - docker-engine
+    - docker.io
+
+- name: add docker's official GPG key
+  apt_key:
+    url: https://download.docker.com/linux/debian/gpg
+    state: present
+
+- name: copy docker repository file
+  apt_repository:
+    repo: deb [arch=armhf] https://download.docker.com/linux/debian      stretch stable
+    filename: docker.list
+    state: present
+    update_cache: yes
+
+- name: install docker-ce
+  apt:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - docker-ce
+    - docker-ce-cli
+    - containerd.io
+  ignore_errors: "{{ ansible_check_mode }}"
+
+- name: start and enable docker
+  systemd:
+    name: docker
+    state: started
+    enabled: yes

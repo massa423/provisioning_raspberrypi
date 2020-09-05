@@ -1,0 +1,29 @@
+- name: enable ip forwarding
+  sysctl:
+    name: net.ipv4.ip_forward
+    state: present
+    value: '1'
+
+- name: setup forward table in iptables
+  block:
+    - name: add masquerade setting
+      iptables:
+        table: nat
+        chain: POSTROUTING
+        out_interface: wlan0
+        jump: MASQUERADE
+
+    - name: add inbound forward setting
+      iptables:
+        chain: FORWARD
+        in_interface: wlan0
+        out_interface: eth0
+        ctstate: RELATED,ESTABLISHED
+        jump: ACCEPT
+
+    - name: add outbound forward setting
+      iptables:
+        chain: FORWARD
+        in_interface: eth0
+        out_interface: wlan0
+        jump: ACCEPT

@@ -1,0 +1,52 @@
+- name: Set timezone to Asia/Tokyo
+  timezone:
+    name: Asia/Tokyo
+
+- name: Upgrade all packages to the latest version
+  apt:
+    name: "*"
+    state: latest
+    update_cache: yes
+  tags:
+    - update_package
+
+- name: install neccesary packages
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  loop:
+    - vim
+    - git
+    - dnsutils
+    - iotop
+    - htop
+    - tcpdump
+    - telnet
+    - ngrep
+    - iperf3
+    - linux-perf
+    - strace
+
+- name: install packages to use repository over https
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  loop:
+    - apt-transport-https
+    - ca-certificates
+    - curl
+    - gnupg2
+    - software-properties-common
+
+- name: setup git config
+  git_config:
+    name: "{{ item.name }}"
+    value: "{{ item.value }}"
+    scope: global
+  loop:
+    - { name: 'user.name', value: 'pi'}
+    - { name: 'user.email', value: 'pi@example.com'}
+    - { name: 'core.editor', value: 'vim'}
+  become: False

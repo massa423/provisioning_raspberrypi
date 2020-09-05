@@ -1,0 +1,8 @@
+- hosts: kubernetes_master
+  become: true
+  roles:
+    - common
+    - network
+    - docker
+    - kubernetes_master
+    - kubernetes_node

@@ -1,0 +1,30 @@
+- name: add kubernetes's official GPG key
+  apt_key:
+    url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+    state: present
+
+- name: copy kubernetes repository file
+  apt_repository:
+    repo: deb http://apt.kubernetes.io/ kubernetes-xenial main
+    filename: kubernetes.list
+    state: present
+    update_cache: yes
+
+- name: install kubernetes
+  apt:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - kubelet
+    - kubeadm
+    - kubectl
+    - kubernetes-cni
+  ignore_errors: "{{ ansible_check_mode }}"
+
+- name: modify boot option
+  copy:
+    src: boot/cmdline.txt
+    dest: /boot/cmdline.txt
+    owner: root
+    group: root
+    mode: '0755'

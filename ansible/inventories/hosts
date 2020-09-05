@@ -1,0 +1,13 @@
+[kubernetes_cluster]
+kubernetes
+node-1
+node-2
+node-3
+
+[kubernetes_master]
+kubernetes
+
+[kubernetes_node]
+#node-1
+node-2
+node-3

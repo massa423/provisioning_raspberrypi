@@ -6,3 +6,5 @@
     - docker
     - kubernetes_master
     - kubernetes_node
+    - role: node_exporter
+      tags: exporter

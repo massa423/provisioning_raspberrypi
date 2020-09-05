@@ -5,3 +5,5 @@
     - network
     - docker
     - kubernetes_node
+    - role: node_exporter
+      tags: exporter

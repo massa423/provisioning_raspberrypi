@@ -1,0 +1,78 @@
+- name: create group
+  group:
+    name: node_exporter
+    state: present
+
+- name: create user
+  user:
+    name: node_exporter
+    group: node_exporter
+    create_home: no
+    shell: /sbin/nolog
+    state: present
+
+- name: create directory
+  file:
+    path: "{{ item.name }}"
+    owner: "{{ item.owner }}"
+    group: "{{ item.group }}"
+    mode: '0755'
+    state: directory
+  loop:
+     - { name: '/exporter',               owner: 'root', group: 'root' }
+     - { name: '/exporter/node_exporter', owner: 'root', group: 'root' }
+     - { name: '/var/log/node_exporter',  owner: 'node_exporter', group: 'node_exporter' }
+
+- name: copy unit file
+  copy:
+    src: etc/systemd/system/node_exporter.service
+    dest: /etc/systemd/system/node_exporter.service
+    owner: root
+    group: root
+    mode: '0644'
+  notify:
+    - restart node_exporter
+
+- name: copy binary
+  copy:
+    src: exporter/node_exporter/node_exporter
+    dest: /exporter/node_exporter/node_exporter
+    owner: root
+    group: root
+    mode: '0755'
+  notify:
+  - restart node_exporter
+
+- name: copy conf
+  copy:
+    src: exporter/node_exporter/node_exporter.conf
+    dest: /exporter/node_exporter/node_exporter.conf
+    owner: root
+    group: root
+    mode: '0644'
+  notify:
+  - restart node_exporter
+
+- name: copy syslog conf
+  copy:
+    src: etc/rsyslog.d/node_exporter.conf
+    dest: /etc/rsyslog.d/node_exporter.conf
+    owner: root
+    group: root
+    mode: '0644'
+  notify:
+  - restart rsyslog
+
+- name: copy logrotate conf
+  copy:
+    src: etc/logrotate.d/node_exporter
+    dest: /etc/logrotate.d/node_exporter
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: start and enable node_exporter
+  systemd:
+    name: node_exporter
+    state: started
+    enabled: yes

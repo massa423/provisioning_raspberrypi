@@ -1,0 +1,18 @@
+[Unit]
+Description=Node Exporter
+Documentation=https://github.com/prometheus/node_exporter
+
+[Service]
+Restart=on-failure
+User=node_exporter
+EnvironmentFile=-/exporter/node_exporter/node_exporter.conf
+ExecStart=/exporter/node_exporter/node_exporter $OPTIONS
+ExecReload=/bin/kill -HUP $MAINPID
+TimeoutStopSec=20s
+SendSIGKILL=no
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=node_exporter
+
+[Install]
+WantedBy=multi-user.target

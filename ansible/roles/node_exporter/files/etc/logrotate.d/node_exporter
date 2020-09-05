@@ -1,0 +1,10 @@
+/var/log/node_exporter/node_exporter.log {
+    create 0644 node_exporter node_exporter
+    daily
+    rotate 14
+    missingok
+    notifempty
+    compress
+    sharedscripts
+    endscript
+}

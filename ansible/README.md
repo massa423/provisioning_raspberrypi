@@ -45,7 +45,7 @@ $ sudo apt-get install python3-apt sshpass
 $ https://github.com/massa423/provisioning_raspberrypi.git
 
 $ cd provisioning_raspberrypi/ansible
-$ ansible-playbook -i inventories/hosts localhost.yml -D
+$ ansible-playbook -i inventories/hosts localhost.yml -k -D
 ```
 
 この時点でmasterサーバにdhcpdがインストールされ、各nodeサーバに

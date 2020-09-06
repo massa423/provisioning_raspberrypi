@@ -27,9 +27,23 @@ Kubernetesクラスタを構築することを目的としたAnsible Playbook群
 ### masterサーバの初期構築
 
 実行ユーザは`pi`を想定。
+localhostに対する実行時、`ansible_connection`が`local`では
+`python3-apt`インストール有無に関わらず未インストールエラーが発生する。
+ssh経由で接続を行えば発生しないため、パスワード認証用に`sshpass`を
+インストールする。
 
 ```
+fatal: [localhost]: FAILED! => {"changed": false, "msg": "python3-apt must be installed to use check mode. If run normally this module can auto-install it."}
+```
+
+また、`python3-apt`はAnsibleの`apt`モジュールの必須要件のため
+あわせてインストールする。
+
+```
+$ sudo apt-get install python3-apt sshpass
+
 $ https://github.com/massa423/provisioning_raspberrypi.git
+
 $ cd provisioning_raspberrypi/ansible
 $ ansible-playbook -i inventories/hosts localhost.yml -D
 ```

@@ -1,3 +1,6 @@
+[localhost]
+127.0.0.1
+
 [kubernetes_cluster]
 kubernetes
 node-1

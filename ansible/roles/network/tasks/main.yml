@@ -7,3 +7,11 @@
 - name: setup other network settings
   include_tasks: others.yml
   when: ('localhost' not in group_names)
+
+  - name: copy hosts
+  copy:
+    src: etc/hosts
+    dest: /etc/hosts
+    owner: root
+    group: root
+    mode: '0644'

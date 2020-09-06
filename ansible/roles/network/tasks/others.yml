@@ -1,0 +1,31 @@
+- name: set hostname
+  hostname:
+    name: "{{ inventory_hostname }}"
+
+- name: copy hosts
+  copy:
+    src: etc/hosts
+    dest: /etc/hosts
+    owner: root
+    group: root
+    mode: '0644'
+
+- block:
+    - name: "create ssh key pair({{ lookup('env', 'USER') }} user)"
+      user:
+        name: "{{ lookup('env', 'USER') }}"
+        generate_ssh_key: yes
+        ssh_key_type: ed25519
+
+    - name: fetch ssh public key from master server
+      fetch:
+        src: "{{ lookup('env', 'HOME') }}/.ssh/id_ed25519.pub"
+        dest: "roles/network/files/{{ master_host }}/{{ lookup('env', 'HOME') }}/.ssh/id_ed25519.pub"
+        flat: yes
+      when: ('kubernetes_master' in group_names)
+
+    - name: register public key to authorized_key
+      authorized_key:
+        user: "{{ lookup('env', 'USER') }}"
+        key: "{{ lookup('file', master_host + '/' + lookup('env', 'HOME') + '/.ssh/id_ed25519.pub') }}"
+  become: False

@@ -29,6 +29,7 @@
     - strace
     - python-apt
     - iptables-persistent
+    - smartmontools
 
 - name: install packages to use repository over https
   apt:

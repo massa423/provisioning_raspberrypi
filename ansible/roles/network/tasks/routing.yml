@@ -10,20 +10,20 @@
       iptables:
         table: nat
         chain: POSTROUTING
-        out_interface: wlan0
+        out_interface: "{{ global_interface }}"
         jump: MASQUERADE
 
     - name: add inbound forward setting
       iptables:
         chain: FORWARD
-        in_interface: wlan0
-        out_interface: eth0
+        in_interface: "{{ global_interface }}"
+        out_interface: "{{ local_interface }}"
         ctstate: RELATED,ESTABLISHED
         jump: ACCEPT
 
     - name: add outbound forward setting
       iptables:
         chain: FORWARD
-        in_interface: eth0
-        out_interface: wlan0
+        in_interface: "{{ local_interface }}"
+        out_interface: "{{ global_interface }}"
         jump: ACCEPT

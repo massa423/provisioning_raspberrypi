@@ -8,6 +8,9 @@ node-3
 kubernetes
 
 [kubernetes_node]
-#node-1
+node-1
 node-2
 node-3
+
+[all:vars]
+master_host=kubernetes

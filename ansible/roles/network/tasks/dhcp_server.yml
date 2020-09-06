@@ -1,7 +1,8 @@
-- name: copy eth0 interface config
+# ファイルとしては一応eth0〜eth2まで用意している
+- name: "copy {{ local_interface }} interface config"
   copy:
-    src: etc/network/interfaces.d/eth0
-    dest: /etc/network/interfaces.d/eth0
+    src: "etc/network/interfaces.d/{{ local_interface }}"
+    dest: "/etc/network/interfaces.d/{{ local_interface }}"
     owner: root
     group: root
     mode: '0644'

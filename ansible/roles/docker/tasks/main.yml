@@ -12,9 +12,16 @@
     url: https://download.docker.com/linux/debian/gpg
     state: present
 
-- name: copy docker repository file
+- name: load a variable file based on the arch
+  include_vars: "{{ lookup('first_found', possible_files) }}"
+  vars:
+    possible_files:
+      - "vars/{{ ansible_architecture }}.yml"
+      - vars/default.yml
+
+- name: create docker repository file
   apt_repository:
-    repo: deb [arch=armhf] https://download.docker.com/linux/debian      stretch stable
+    repo: "deb [arch={{ arch }}] https://download.docker.com/linux/debian {{ ansible_distribution_release }} stable"
     filename: docker.list
     state: present
     update_cache: yes

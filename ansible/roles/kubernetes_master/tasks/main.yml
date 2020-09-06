@@ -3,12 +3,11 @@
     url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
     state: present
 
-- name: copy kubernetes repository file
+- name: create kubernetes repository file
   apt_repository:
     repo: deb http://apt.kubernetes.io/ kubernetes-xenial main
     filename: kubernetes.list
     state: present
-    update_cache: yes
 
 - name: install kubernetes
   apt:

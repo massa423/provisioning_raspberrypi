@@ -26,6 +26,23 @@ Kubernetesクラスタを構築することを目的としたAnsible Playbook群
 
 ### masterサーバの初期構築
 
+1. eth<N>に固定IP(10.0.0.1)を割り当てる
+
+(例) eth0
+
+```
+$ sudo sh -c 'echo "allow-hotplug eth0
+iface eth0 inet static
+    address 10.0.0.1
+    netmask 255.255.255.0
+    broadcast 10.0.0.255
+    gateway 10.0.0.1" > /etc/network/interfaces.d/eth0'
+
+$ sudo reboot
+```
+
+2. Ansible実行
+
 実行ユーザは`pi`を想定。
 localhostに対する実行時、`ansible_connection`が`local`では
 `python3-apt`インストール有無に関わらず未インストールエラーが発生する。

@@ -1,12 +1,3 @@
-# ファイルとしては一応eth0〜eth2まで用意している
-- name: "copy {{ local_interface }} interface config"
-  copy:
-    src: "etc/network/interfaces.d/{{ local_interface }}"
-    dest: "/etc/network/interfaces.d/{{ local_interface }}"
-    owner: root
-    group: root
-    mode: '0644'
-
 - name: install isc-dhcp-server package
   apt:
     name: "{{ item }}"

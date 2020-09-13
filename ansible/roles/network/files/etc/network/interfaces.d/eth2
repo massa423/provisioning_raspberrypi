@@ -1,6 +1,0 @@
-allow-hotplug eth2
-iface eth0 inet static
-    address 10.0.0.1
-    netmask 255.255.255.0
-    broadcast 10.0.0.255
-    gateway 10.0.0.1

@@ -71,6 +71,8 @@ $ ansible-playbook -i inventories/hosts localhost.yml -k -D
 
 ### Kubernetesクラスタサーバの構築
 
+1. Ansible実行
+
 初回は各サーバに対してパスワード認証でアクセスする。
 SSHパスワードを入力するために`-k`オプションを指定する。
 実行ユーザは`pi`を想定。
@@ -78,6 +80,17 @@ SSHパスワードを入力するために`-k`オプションを指定する。
 ```
 $ cd provisioning_raspberrypi/ansible
 $ ansible-playbook -i inventories/hosts kubernetes.yml -k -D
+```
+
+2. /boot/cmdline.txtの修正
+
+cgroup関連の設定を追加する。
+
+```
+$ sudo vim /boot/cmdline.txt
+---
+cgroup_memory=1 cgroup_enable=memory
+---
 ```
 
 ### パッケージアップデートを除外して実行

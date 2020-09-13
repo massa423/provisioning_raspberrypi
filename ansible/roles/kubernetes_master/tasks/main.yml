@@ -19,11 +19,3 @@
     - kubectl
     - kubernetes-cni
   ignore_errors: "{{ ansible_check_mode }}"
-
-- name: modify boot option
-  copy:
-    src: boot/cmdline.txt
-    dest: /boot/cmdline.txt
-    owner: root
-    group: root
-    mode: '0755'

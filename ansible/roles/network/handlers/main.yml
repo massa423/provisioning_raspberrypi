@@ -1,3 +1,8 @@
+- name: restart dhcpcd
+  systemd:
+    name: dhcpcd
+    state: restarted
+
 - name: restart isc-dhcp-server
   systemd:
     name: isc-dhcp-server

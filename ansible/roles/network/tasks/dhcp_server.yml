@@ -1,3 +1,13 @@
+- name: copy dhcp client config
+  template:
+    src: etc/dhcpcd.conf.js
+    dest: /etc/dhcpcd.conf
+    owner: root
+    group: root
+    mode: '0644'
+  notify:
+    - restart dhcpcd
+
 - name: install isc-dhcp-server package
   apt:
     name: "{{ item }}"

@@ -6,7 +6,7 @@ ff02::2		ip6-allrouters
 127.0.1.1	raspberrypi
 
 10.0.0.1 kubernetes
-10.0.0.3 node-1
-10.0.0.4 node-2
-10.0.0.5 node-3
-10.0.0.6 node-4
+10.0.0.2 node-1
+10.0.0.3 node-2
+10.0.0.4 node-3
+10.0.0.5 node-4

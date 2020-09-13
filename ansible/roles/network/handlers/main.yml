@@ -1,4 +1,7 @@
-- name: restart dhcpcd
+- name: restart isc-dhcp-server
   systemd:
-    name: dhcpcd
+    name: isc-dhcp-server
     state: restarted
+
+- name: preserve iptables settings
+  command: netfilter-persistent save

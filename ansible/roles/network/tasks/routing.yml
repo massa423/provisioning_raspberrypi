@@ -12,6 +12,8 @@
         chain: POSTROUTING
         out_interface: "{{ global_interface }}"
         jump: MASQUERADE
+      notify:
+        - preserve iptables settings
 
     - name: add inbound forward setting
       iptables:
@@ -20,6 +22,8 @@
         out_interface: "{{ local_interface }}"
         ctstate: RELATED,ESTABLISHED
         jump: ACCEPT
+      notify:
+        - preserve iptables settings
 
     - name: add outbound forward setting
       iptables:
@@ -27,3 +31,5 @@
         in_interface: "{{ local_interface }}"
         out_interface: "{{ global_interface }}"
         jump: ACCEPT
+      notify:
+        - preserve iptables settings

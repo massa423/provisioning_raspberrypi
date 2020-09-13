@@ -42,7 +42,7 @@ fatal: [localhost]: FAILED! => {"changed": false, "msg": "python3-apt must be in
 ```
 $ sudo apt-get install python3-apt sshpass
 
-$ https://github.com/massa423/provisioning_raspberrypi.git
+$ git clone https://github.com/massa423/provisioning_raspberrypi.git
 
 $ cd provisioning_raspberrypi/ansible
 $ ansible-playbook -i inventories/hosts localhost.yml -k -D

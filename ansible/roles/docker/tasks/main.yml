@@ -36,11 +36,29 @@
     - containerd.io
   ignore_errors: "{{ ansible_check_mode }}"
 
+# see https://kubernetes.io/docs/setup/production-environment/container-runtimes/
+- name: change cgroup driver
+  copy:
+    src: etc/docker/daemon.json
+    dest: /etc/docker/daemon.json
+    owner: root
+    group: root
+    mode: '0644'
+  notify:
+    - restart docker
+
+- name: create docker service directory
+  file:
+    path: /etc/systemd/system/docker.service.d
+    owner: root
+    group: root
+    mode: '0755'
+    state: directory
+  notify:
+    - restart docker
+
 - name: start and enable docker
   systemd:
     name: docker
     state: started
     enabled: yes
-
-# [TODO] change cgroup drivers
-# see https://kubernetes.io/docs/setup/production-environment/container-runtimes/

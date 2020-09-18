@@ -32,6 +32,7 @@
     - smartmontools
     - traceroute
     - lsof
+    - bash-completion
 
 - name: install packages to use repository over https
   apt:

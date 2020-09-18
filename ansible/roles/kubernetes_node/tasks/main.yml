@@ -19,3 +19,11 @@
     - kubectl
     - kubernetes-cni
   ignore_errors: "{{ ansible_check_mode }}"
+
+- name: add kubectl completion
+  copy:
+    src: etc/bash_completion.d/kubectl
+    dest: /etc/bash_completion.d/kubectl
+    owner: root
+    group: root
+    mode: '0644'

@@ -33,6 +33,8 @@
     - traceroute
     - lsof
     - bash-completion
+    - jq
+    - moreutils
 
 - name: install packages to use repository over https
   apt:
@@ -44,6 +46,23 @@
     - curl
     - gnupg2
     - software-properties-common
+
+- block:
+    # see: https://www.speedtest.net/ja/apps/cli
+    - name: copy speedtest repository
+      copy:
+        src: etc/apt/sources.list.d/ookla_speedtest-cli.list
+        dest: /etc/apt/sources.list.d/ookla_speedtest-cli.list
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: install speedtest
+      apt:
+        name: speedtest
+        state: present
+        update_cache: yes
+  when: '"kubernetes_master" in group_names'
 
 - name: setup git config
   git_config:

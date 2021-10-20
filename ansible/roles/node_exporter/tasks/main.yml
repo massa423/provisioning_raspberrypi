@@ -53,6 +53,25 @@
   notify:
   - restart node_exporter
 
+- name: create textfile collector directory
+  file:
+    path: /exporter/node_exporter/textfile_collector
+    owner: root
+    group: root
+    mode: '0755'
+  when: "'kubernetes_master' in group_names"
+
+- name: copy textfile collector script
+  copy:
+    src: exporter/node_exporter/textfile_collector/speedtest.sh
+    dest: /exporter/node_exporter/textfile_collector/speedtest.sh
+    owner: root
+    group: root
+    mode: '0755'
+  when: "'kubernetes_master' in group_names"
+  notify:
+  - restart node_exporter
+
 - name: copy syslog conf
   copy:
     src: etc/rsyslog.d/node_exporter.conf

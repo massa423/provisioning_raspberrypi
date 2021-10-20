@@ -1,3 +1,4 @@
+# see: https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/
 - name: add kubernetes's official GPG key
   apt_key:
     url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
@@ -5,8 +6,8 @@
 
 - name: create kubernetes repository file
   apt_repository:
-    repo: deb http://apt.kubernetes.io/ kubernetes-xenial main
-    filename: kubernetes.list
+    repo: deb https://apt.kubernetes.io/ kubernetes-xenial main
+    filename: kubernetes
     state: present
 
 - name: install kubernetes

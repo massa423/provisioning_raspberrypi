@@ -12,7 +12,7 @@
 
 - name: create kubernetes repository file
   apt_repository:
-    repo: deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main
+    repo: deb https://apt.kubernetes.io/ kubernetes-xenial main
     filename: kubernetes
     state: present
 

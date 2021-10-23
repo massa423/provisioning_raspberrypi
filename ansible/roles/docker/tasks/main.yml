@@ -7,22 +7,22 @@
     - docker-engine
     - docker.io
 
-- name: add docker's official GPG key
-  apt_key:
-    url: https://download.docker.com/linux/debian/gpg
-    state: present
-
 - name: load a variable file based on the arch
   include_vars: "{{ lookup('first_found', possible_files) }}"
   vars:
     possible_files:
-      - "vars/{{ ansible_architecture }}.yml"
+      - "vars/{{ ansible_lsb.id }}.yml"
       - vars/default.yml
+
+- name: add docker's official GPG key
+  apt_key:
+    url: "https://download.docker.com/linux/{{ os_distribution }}/gpg"
+    state: present
 
 - name: create docker repository file
   apt_repository:
-    repo: "deb [arch={{ arch }}] https://download.docker.com/linux/debian {{ ansible_distribution_release }} stable"
-    filename: docker.list
+    repo: "deb [arch={{ arch }}] https://download.docker.com/linux/{{ os_distribution }} {{ ansible_distribution_release }} stable"
+    filename: docker
     state: present
     update_cache: yes
 
@@ -56,6 +56,13 @@
     state: directory
   notify:
     - restart docker
+
+- name: pi user join docker group
+  user:
+    name: pi
+    groups: docker
+    append: yes
+  ignore_errors: "{{ ansible_check_mode }}"
 
 - name: start and enable docker
   systemd:

@@ -1,3 +1,9 @@
+- name: swap off
+  systemd:
+    name: dphys-swapfile
+    state: stopped
+    enabled: no
+
 # see: https://github.com/kubernetes/website/issues/25174
 - name: add kubernetes's official GPG key
   apt_key:

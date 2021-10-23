@@ -1,3 +1,9 @@
+- name: swap off
+  systemd:
+    name: dphys-swapfile
+    state: stopped
+    enabled: no
+
 # see: https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/
 - name: add kubernetes's official GPG key
   apt_key:

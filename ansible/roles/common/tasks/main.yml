@@ -27,7 +27,6 @@
     - iperf3
     - linux-perf
     - strace
-    - python-apt
     - iptables-persistent
     - smartmontools
     - traceroute
@@ -35,6 +34,7 @@
     - bash-completion
     - jq
     - moreutils
+    - tmux
 
 - name: install packages to use repository over https
   apt:

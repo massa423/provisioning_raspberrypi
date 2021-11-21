@@ -4,9 +4,9 @@ Kubernetesクラスタを構築することを目的としたAnsible Playbook群
 
 ## 前提
 
-* 必要なRaspberry Piは**5台**を想定。
+* 必要なRaspberry Piは**4台**を想定。
   * master 1台
-  * node 4台
+  * node 3台
 * masterサーバでWiFi接続設定が完了していること (wlan0)。
 * masterサーバにGit, Ansibleがインストール済みであること。
 
@@ -19,8 +19,7 @@ Kubernetesクラスタを構築することを目的としたAnsible Playbook群
 
 ### OS
 
-* Raspbian GNU/Linux 10 (buster)
-* Debian GNU/Linux 11 (bullseye)
+* Raspberry Pi OS 11 (bullseye)
 
 ## 初期構築
 

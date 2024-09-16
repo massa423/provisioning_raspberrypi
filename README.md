@@ -1,13 +1,13 @@
 ## 概要
 
-Kubernetesクラスタを構築することを目的としたAnsible Playbook群。
+Raspberry Pi上でKubernetesクラスタを構築することを目的としたAnsible Playbook群。
 
 ## 前提
 
 * 必要なRaspberry Piは**4台**を想定。
   * master 1台
   * node 3台
-* masterサーバでWiFi接続設定が完了していること (wlan0)。
+* masterサーバでWi-Fi接続設定が完了していること (wlan0)。
 * masterサーバにGit, Ansibleがインストール済みであること。
 
 ## 動作検証済み環境
@@ -19,7 +19,7 @@ Kubernetesクラスタを構築することを目的としたAnsible Playbook群
 
 ### OS
 
-* Raspberry Pi OS 11 (bullseye)
+* Raspberry Pi OS 12 (Bookworm)
 
 ## 初期構築
 
@@ -49,14 +49,12 @@ ssh経由で接続を行えば発生しないため、パスワード認証用�
 インストールする。
 
 ```
-fatal: [localhost]: FAILED! => {"changed": false, "msg": "python3-apt must be installed to use check mode. If run normally this module can auto-install it."}
+fatal: [kubernetes]: FAILED! => {"msg": "The 'file' lookup had an issue accessing the file 'kubernetes/home/pi/.ssh/id_ed25519.pub'. file not found, use -vvvvv to see paths searched"}
 ```
 
-また、`python3-apt`はAnsibleの`apt`モジュールの必須要件のため
-あわせてインストールする。
 
 ```
-$ sudo apt-get install python3-apt sshpass
+$ sudo apt-get install sshpass
 
 $ git clone https://github.com/massa423/provisioning_raspberrypi.git
 

@@ -12,12 +12,13 @@
     - name: fetch ssh public key from master server
       fetch:
         src: "{{ lookup('env', 'HOME') }}/.ssh/id_ed25519.pub"
-        dest: "roles/network/files/{{ master_host }}/{{ lookup('env', 'HOME') }}/.ssh/id_ed25519.pub"
+        dest: "roles/network/files/{{ master_host }}{{ lookup('env', 'HOME') }}/.ssh/id_ed25519.pub"
         flat: yes
       when: ('kubernetes_master' in group_names)
 
     - name: register public key to authorized_key
       authorized_key:
         user: "{{ lookup('env', 'USER') }}"
-        key: "{{ lookup('file', master_host + '/' + lookup('env', 'HOME') + '/.ssh/id_ed25519.pub') }}"
+        key: "{{ lookup('file', master_host + lookup('env', 'HOME') + '/.ssh/id_ed25519.pub') }}"
+      ignore_errors: "{{ ansible_check_mode }}"
   become: False

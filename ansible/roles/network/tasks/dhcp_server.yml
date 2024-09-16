@@ -1,6 +1,14 @@
+- name: install dhcpcd package
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  loop:
+    - dhcpcd
+
 - name: copy dhcp client config
   template:
-    src: etc/dhcpcd.conf.js
+    src: etc/dhcpcd.conf.j2
     dest: /etc/dhcpcd.conf
     owner: root
     group: root
@@ -41,3 +49,4 @@
     name: isc-dhcp-server
     state: started
     enabled: yes
+  ignore_errors: "{{ ansible_check_mode }}"

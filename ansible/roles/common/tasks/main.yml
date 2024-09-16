@@ -62,6 +62,7 @@
         name: speedtest
         state: present
         update_cache: yes
+      ignore_errors: "{{ ansible_check_mode }}"
   when: '"kubernetes_master" in group_names'
 
 - name: setup git config

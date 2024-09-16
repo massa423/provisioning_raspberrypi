@@ -2,11 +2,13 @@
   systemd:
     name: dhcpcd
     state: restarted
+  ignore_errors: "{{ ansible_check_mode }}"
 
 - name: restart isc-dhcp-server
   systemd:
     name: isc-dhcp-server
     state: restarted
+  ignore_errors: "{{ ansible_check_mode }}"
 
 - name: preserve iptables settings
   command: netfilter-persistent save

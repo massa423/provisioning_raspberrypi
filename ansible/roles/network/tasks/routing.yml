@@ -33,3 +33,4 @@
         jump: ACCEPT
       notify:
         - preserve iptables settings
+  ignore_errors: "{{ ansible_check_mode }}"

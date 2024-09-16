@@ -3,8 +3,10 @@
     name: node_exporter
     state: restarted
     daemon_reload: yes
+  ignore_errors: "{{ ansible_check_mode }}"
 
 - name: restart rsyslog
   systemd:
     name: rsyslog
     state: restarted
+  ignore_errors: "{{ ansible_check_mode }}"

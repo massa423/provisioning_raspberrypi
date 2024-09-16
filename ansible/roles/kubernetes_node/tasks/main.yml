@@ -5,14 +5,32 @@
     enabled: no
 
 # see: https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/
-- name: add kubernetes's official GPG key
-  apt_key:
-    url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+- name: install pakages needed to use the kubernetes repository
+  apt:
+    name: "{{ item }}"
     state: present
+  loop:
+    - apt-transport-https
+    - ca-certificates
+    - curl
+    - gpg
+
+- name: create keyrings directory
+  file:
+    path: /etc/apt/keyrings
+    owner: root
+    group: root
+    state: directory
+    mode: '0755'
+
+- name: add kubernetes's official GPG key
+  shell: curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.31/deb/Release.key | gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+  when: not keyring.stat.exists
+  ignore_errors: "{{ ansible_check_mode }}"
 
 - name: create kubernetes repository file
   apt_repository:
-    repo: deb https://apt.kubernetes.io/ kubernetes-xenial main
+    repo: deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.31/deb/ /
     filename: kubernetes
     state: present
 
@@ -24,7 +42,6 @@
     - kubelet
     - kubeadm
     - kubectl
-    - kubernetes-cni
   ignore_errors: "{{ ansible_check_mode }}"
 
 - name: add kubectl completion

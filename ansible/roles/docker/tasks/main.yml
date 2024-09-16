@@ -3,9 +3,12 @@
     name: "{{ item }}"
     state: absent
   loop:
-    - docker
-    - docker-engine
     - docker.io
+    - docker-doc
+    - docker-compose
+    - podman-docker
+    - containerd
+    - runc
 
 - name: load a variable file based on the arch
   include_vars: "{{ lookup('first_found', possible_files) }}"
@@ -34,6 +37,8 @@
     - docker-ce
     - docker-ce-cli
     - containerd.io
+    - docker-buildx-plugin
+    - docker-compose-plugin
   ignore_errors: "{{ ansible_check_mode }}"
 
 # see https://kubernetes.io/docs/setup/production-environment/container-runtimes/
@@ -69,3 +74,4 @@
     name: docker
     state: started
     enabled: yes
+  ignore_errors: "{{ ansible_check_mode }}"

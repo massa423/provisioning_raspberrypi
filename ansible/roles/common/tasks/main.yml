@@ -35,6 +35,7 @@
     - jq
     - moreutils
     - tmux
+    - rsyslog
 
 - name: install packages to use repository over https
   apt:
@@ -49,13 +50,15 @@
 
 - block:
     # see: https://www.speedtest.net/ja/apps/cli
-    - name: copy speedtest repository
-      copy:
-        src: etc/apt/sources.list.d/ookla_speedtest-cli.list
-        dest: /etc/apt/sources.list.d/ookla_speedtest-cli.list
-        owner: root
-        group: root
-        mode: '0644'
+    - name: check speedtest repository
+      stat:
+        path: /etc/apt/sources.list.d/ookla_speedtest-cli.list
+      register: repo
+
+    - name: get speedtest gpg key and repository
+      shell: curl -s https://packagecloud.io/install/repositories/ookla/speedtest-cli/script.deb.sh | sudo bash
+      when: not repo.stat.exists
+      ignore_errors: "{{ ansible_check_mode }}"
 
     - name: install speedtest
       apt:

@@ -23,6 +23,11 @@
     state: directory
     mode: '0755'
 
+- name: check if the kubernetes's official GPG key is already added
+  stat:
+    path: /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+  register: keyring
+
 - name: add kubernetes's official GPG key
   shell: curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.31/deb/Release.key | gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
   when: not keyring.stat.exists

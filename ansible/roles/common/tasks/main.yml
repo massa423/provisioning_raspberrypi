@@ -78,3 +78,4 @@
     - { name: 'user.email', value: 'pi@example.com'}
     - { name: 'core.editor', value: 'vim'}
   become: False
+  ignore_errors: "{{ ansible_check_mode }}"
